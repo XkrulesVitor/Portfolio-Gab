@@ -1,0 +1,541 @@
+/*
+ * Interface exibida DENTRO da tela do notebook.
+ * --------------------------------------------------------------------------
+ * A tela é um container de tamanho (container-type: size, definido em
+ * laptop.module.css), então todas as medidas aqui usam cqw/cqh e acompanham o
+ * tamanho real da tela. Os mínimos em px garantem leitura em telas pequenas.
+ *
+ * Nada de backdrop-filter aqui dentro: dentro de um contexto 3D ele é caro e
+ * inconsistente entre navegadores. Superfícies usam cores semitransparentes.
+ */
+
+.root {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: #f2f0ea;
+  background: #0d0d0b;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  --menu-h: max(18px, 2.4cqw);
+}
+
+.wallpaper {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(70% 60% at 84% 6%, rgb(198 174 130 / 0.3), transparent 62%),
+    radial-gradient(80% 75% at 6% 102%, rgb(124 140 70 / 0.42), transparent 64%),
+    radial-gradient(45% 45% at 52% 58%, rgb(255 255 255 / 0.035), transparent 70%),
+    linear-gradient(165deg, #1a1a14 0%, #0e0e0b 55%, #12130c 100%);
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+}
+
+/* ------------------------------ Barra de menus ------------------------------ */
+
+.menuBar {
+  position: absolute;
+  inset: 0 0 auto;
+  height: var(--menu-h);
+  padding: 0 max(8px, 1.3cqw);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2cqw;
+  font-size: max(8.5px, 1.02cqw);
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  color: rgb(255 255 255 / 0.86);
+  background: linear-gradient(180deg, rgb(14 14 12 / 0.62), rgb(14 14 12 / 0.38));
+  box-shadow: 0 1px 0 rgb(255 255 255 / 0.05);
+  z-index: 3;
+}
+
+.menuLeft,
+.menuRight {
+  display: flex;
+  align-items: center;
+  gap: max(8px, 1.5cqw);
+  white-space: nowrap;
+}
+
+.menuMark {
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.menuApp {
+  font-weight: 650;
+}
+
+.menuItem {
+  color: rgb(255 255 255 / 0.66);
+}
+
+.menuIcon {
+  width: max(9px, 1.15cqw);
+  height: max(9px, 1.15cqw);
+}
+
+.appSwap {
+  display: inline-grid;
+}
+
+.appSwap > * {
+  grid-area: 1 / 1;
+  transition:
+    opacity 450ms var(--ease-out-expo),
+    transform 450ms var(--ease-out-expo);
+}
+
+.appSwap > [data-visible="false"] {
+  opacity: 0;
+  transform: translateY(-40%);
+}
+
+@container (max-width: 640px) {
+  .menuItem,
+  .menuDate {
+    display: none;
+  }
+}
+
+/* ------------------------------ Coluna da história ------------------------------ */
+
+/*
+ * Sem `will-change: transform` de propósito: com ele o Chrome congela a escala de
+ * rasterização da camada no momento em que ela é criada (escala 0.47 do hero) e o
+ * texto fica borrado depois do zoom. O translate3d já garante a camada própria.
+ */
+.column {
+  position: absolute;
+  inset: 0 0 auto;
+}
+
+.panel {
+  position: relative;
+  height: 100cqh;
+  padding: calc(var(--menu-h) + 4cqh) 7cqw 5cqh;
+  display: flex;
+  align-items: center;
+}
+
+.panelInner {
+  width: 100%;
+}
+
+.title {
+  font-size: max(21px, 4.5cqw);
+  font-weight: 620;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+  text-wrap: balance;
+}
+
+.body {
+  margin-top: max(10px, 1.6cqw);
+  max-width: 36em;
+  font-size: max(11.5px, 1.42cqw);
+  line-height: 1.55;
+  color: rgb(242 240 234 / 0.72);
+  text-wrap: pretty;
+}
+
+.meta {
+  font-size: max(10px, 1.08cqw);
+  line-height: 1.4;
+  color: rgb(242 240 234 / 0.55);
+}
+
+.metaRow {
+  margin-top: max(10px, 2cqw);
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+}
+
+.icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+
+/* Entrada dos elementos quando o capítulo assenta na tela. */
+.reveal {
+  opacity: 0;
+  transform: translateY(2.2cqh);
+  transition:
+    opacity 700ms var(--ease-out-expo),
+    transform 900ms var(--ease-out-expo);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+[data-active="true"] .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+/* Tela de bloqueio */
+
+.lock {
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+  padding-bottom: 9cqh;
+}
+
+.lockClock {
+  margin-top: 3cqh;
+}
+
+.lockDate {
+  font-size: max(11px, 1.55cqw);
+  font-weight: 500;
+  color: rgb(255 255 255 / 0.78);
+}
+
+.lockTime {
+  font-size: max(40px, 8.2cqw);
+  font-weight: 640;
+  letter-spacing: -0.045em;
+  line-height: 1;
+  color: rgb(255 255 255 / 0.92);
+  font-variant-numeric: tabular-nums;
+}
+
+.lockUser {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: max(6px, 1.1cqw);
+}
+
+.avatar {
+  position: relative;
+  width: max(38px, 6.6cqw);
+  height: max(38px, 6.6cqw);
+  overflow: hidden;
+  border-radius: 999px;
+  box-shadow:
+    0 0 0 max(1px, 0.18cqw) rgb(255 255 255 / 0.22),
+    0 1cqw 3cqw rgb(0 0 0 / 0.35);
+}
+
+.lockName {
+  font-size: max(12px, 2cqw);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.password {
+  display: flex;
+  align-items: center;
+  gap: max(6px, 0.9cqw);
+  height: max(22px, 3cqw);
+  padding: 0 max(8px, 1.1cqw) 0 max(10px, 1.4cqw);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.12);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+}
+
+.passwordDots {
+  display: flex;
+  gap: max(3px, 0.45cqw);
+}
+
+.passwordDot {
+  width: max(4px, 0.55cqw);
+  height: max(4px, 0.55cqw);
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.95);
+}
+
+.lockGlyph {
+  position: relative;
+  width: max(11px, 1.4cqw);
+  height: max(11px, 1.4cqw);
+}
+
+.lockGlyph > * {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Sobre */
+
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 6cqw;
+  width: 100%;
+}
+
+.photo {
+  position: relative;
+  height: 72cqh;
+  max-height: 100%;
+  aspect-ratio: 4 / 5;
+  justify-self: end;
+  overflow: hidden;
+  border-radius: max(8px, 1.3cqw);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.1),
+    0 2cqw 5cqw -1cqw rgb(0 0 0 / 0.55);
+}
+
+@container (max-width: 640px) {
+  .about {
+    grid-template-columns: 34% minmax(0, 1fr);
+    gap: 5cqw;
+  }
+
+  .photo {
+    height: auto;
+    width: 100%;
+  }
+
+  .panel {
+    padding: calc(var(--menu-h) + 3cqh) 5.5cqw 4cqh;
+  }
+}
+
+/* Trajetória */
+
+.timeline {
+  margin-top: max(16px, 5cqh);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+/* Sem gap entre colunas: as bordas formam uma linha do tempo contínua. */
+.milestone {
+  position: relative;
+  padding-top: max(14px, 2.4cqw);
+  padding-right: 3cqw;
+  border-top: 1px solid rgb(255 255 255 / 0.16);
+}
+
+.milestoneNode {
+  position: absolute;
+  top: calc(max(7px, 0.75cqw) / -2 - 0.5px);
+  left: 0;
+  width: max(7px, 0.75cqw);
+  height: max(7px, 0.75cqw);
+  border-radius: 999px;
+  background: #0f0f0c;
+  box-shadow: inset 0 0 0 1.5px rgb(255 255 255 / 0.5);
+}
+
+.milestone[data-current="true"] .milestoneNode {
+  background: #c4cf8a;
+  box-shadow: 0 0 0 max(3px, 0.4cqw) rgb(196 207 138 / 0.18);
+}
+
+.year {
+  font-family: var(--font-mono);
+  font-size: max(10px, 1.08cqw);
+  color: #c4cf8a;
+  letter-spacing: 0.02em;
+}
+
+.milestoneTitle {
+  margin-top: max(4px, 0.6cqw);
+  font-size: max(12.5px, 1.75cqw);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.milestoneDetail {
+  margin-top: max(3px, 0.4cqw);
+}
+
+@container (max-width: 640px) {
+  .timeline {
+    grid-template-columns: minmax(0, 1fr);
+    gap: max(8px, 2.2cqh);
+    margin-top: max(10px, 3cqh);
+  }
+
+  .milestone {
+    display: grid;
+    grid-template-columns: 4.2em minmax(0, 1fr);
+    column-gap: 0.4em;
+    padding-top: 0;
+    padding-left: 0;
+    border-top: 0;
+  }
+
+  .milestoneNode {
+    display: none;
+  }
+
+  .milestoneTitle,
+  .milestoneDetail {
+    grid-column: 2;
+    margin-top: 0;
+  }
+
+  .year {
+    grid-row: 1 / span 2;
+    padding-top: 0.15em;
+  }
+}
+
+/* Formação */
+
+.educationIcon {
+  width: max(22px, 3.4cqw);
+  height: max(22px, 3.4cqw);
+  margin-bottom: max(10px, 2.4cqh);
+  color: #c4cf8a;
+}
+
+.years {
+  margin-top: max(16px, 5.5cqh);
+  max-width: 64cqw;
+  display: grid;
+  grid-template-columns: repeat(var(--count, 4), minmax(0, 1fr));
+  gap: max(4px, 0.6cqw);
+}
+
+.yearCell {
+  padding-top: max(8px, 1.2cqw);
+  border-top: 1px solid rgb(255 255 255 / 0.3);
+}
+
+.yearCell[data-state="future"] {
+  border-top-color: rgb(255 255 255 / 0.12);
+  color: rgb(242 240 234 / 0.5);
+}
+
+.yearCell[data-state="current"] {
+  border-top: 2px solid #c4cf8a;
+  padding-top: calc(max(8px, 1.2cqw) - 1px);
+}
+
+.yearCell[data-state="current"] .year {
+  color: #c4cf8a;
+}
+
+.yearCell .year {
+  color: inherit;
+}
+
+.yearCaption {
+  margin-top: max(2px, 0.3cqw);
+}
+
+@container (max-width: 640px) {
+  .years {
+    max-width: none;
+  }
+
+  .educationIcon {
+    display: none;
+  }
+}
+
+/* Stack */
+
+.groups {
+  margin-top: max(16px, 5cqh);
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  gap: 2cqh 4.5cqw;
+}
+
+.chips {
+  margin-top: max(6px, 1.1cqw);
+  display: flex;
+  flex-wrap: wrap;
+  gap: max(5px, 0.7cqw);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55em;
+  height: max(24px, 3.3cqw);
+  padding: 0 max(9px, 1.2cqw);
+  border-radius: 999px;
+  font-size: max(11px, 1.3cqw);
+  font-weight: 520;
+  color: rgb(255 255 255 / 0.9);
+  background: rgb(255 255 255 / 0.07);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
+}
+
+.chip svg {
+  width: 1.05em;
+  height: 1.05em;
+  fill: currentColor;
+  opacity: 0.85;
+}
+
+@container (max-width: 640px) {
+  .groups {
+    grid-template-columns: minmax(0, 1fr);
+    gap: max(6px, 1.6cqh);
+    margin-top: max(10px, 3cqh);
+  }
+
+  .groupLabel {
+    display: none;
+  }
+
+  .chips {
+    margin-top: 0;
+  }
+}
+
+/* ------------------------------ Visualizador de projetos ------------------------------ */
+
+.viewer {
+  position: absolute;
+  inset: var(--menu-h) 0 0;
+  overflow: hidden;
+}
+
+.viewerSlide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 650ms var(--ease-out-expo);
+}
+
+.viewerSlide[data-active="true"] {
+  opacity: 1;
+}
+
+/* ------------------------------ Efeitos de vidro/energia ------------------------------ */
+
+.glare {
+  position: absolute;
+  inset: -30% -60%;
+  pointer-events: none;
+  background: linear-gradient(
+    112deg,
+    transparent 38%,
+    rgb(255 255 255 / 0.055) 46%,
+    rgb(255 255 255 / 0.015) 52%,
+    transparent 58%
+  );
+  z-index: 4;
+}
+
+.power {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  pointer-events: none;
+  z-index: 5;
+}
