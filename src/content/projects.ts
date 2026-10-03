@@ -1,27 +1,26 @@
 import type { StaticImageData } from "next/image";
 
 /**
- * PROJETOS - CONTEÚDO DE EXEMPLO
+ * PROJETOS
  * --------------------------------------------------------------------------
- * Os quatro projetos abaixo são marcadores de lugar para validar o layout.
- * Substitua título, descrição, tags e links pelos projetos reais da Gabriela.
+ * Projetos reais do GitHub da Gabriela (github.com/gabicpp).
  *
  * Imagens: salve os prints em `src/assets/projects/` e importe-os aqui
- * (ex.: `import painel from "@/assets/projects/painel.png"`), depois use
- * `image: painel`. Sem imagem, o card e a tela do notebook exibem uma capa
- * tipográfica gerada a partir do título e do `tone`.
+ * (ex.: `import astro from "@/assets/projects/astrocalendario.png"`), depois
+ * use `image: astro`. Sem imagem, o card e a tela do notebook exibem uma capa
+ * tipográfica provisória gerada a partir do título e do `tone`.
  *
  * Proporção ideal dos prints: 16:10 (ex.: 1600 x 1000), igual à tela do notebook.
  */
 
-export type ProjectTone = "olive" | "sand" | "slate" | "clay";
+export type ProjectTone = "violet" | "indigo" | "rose" | "slate";
 
 export interface Project {
   slug: string;
   title: string;
   summary: string;
   tags: string[];
-  /** Contexto curto exibido no card: "Acadêmico", "Pessoal", "Trabalho"... */
+  /** Tipo de projeto, exibido no topo do card. */
   context: string;
   year: string;
   image?: StaticImageData | string;
@@ -33,49 +32,55 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    slug: "painel-de-indicadores",
-    title: "Painel de indicadores",
+    slug: "astrocalendario",
+    title: "AstroCalendário",
     summary:
-      "Dashboard em React e Vite para acompanhar indicadores a partir de dados exportados do ERP.",
-    tags: ["React", "Vite"],
-    context: "Pessoal",
+      "Explorador da foto astronômica do dia da NASA: escolha uma data no calendário e veja a imagem com título e descrição oficiais.",
+    tags: ["React", "Vite", "React Router", "API da NASA"],
+    context: "Aplicação web, em dupla",
     year: "2026",
-    tone: "olive",
+    links: { repo: "https://github.com/gabicpp/nasa" },
+    tone: "indigo",
   },
   {
-    slug: "consultas-protheus",
-    title: "Consultas Protheus",
+    slug: "pokedex",
+    title: "Pokédex",
     summary:
-      "Coleção de consultas e relatórios usados no suporte ao ERP Protheus, organizada no DBeaver.",
-    tags: ["ERP Protheus", "DBeaver"],
-    context: "Trabalho",
-    year: "2025",
-    tone: "sand",
+      "Catálogo de Pokémon com dados da PokéAPI, busca por nome, página de detalhes e estados de carregamento e erro.",
+    tags: ["React", "Vite", "React Router", "PokéAPI"],
+    context: "Aplicação web",
+    year: "2026",
+    links: { repo: "https://github.com/gabicpp/pokedex" },
+    tone: "violet",
   },
   {
-    slug: "automacao-de-planilhas",
-    title: "Automação de planilhas",
-    summary: "Scripts em Python para limpar, cruzar e consolidar planilhas operacionais.",
-    tags: ["Python"],
-    context: "Pessoal",
+    slug: "curriculo-html-css",
+    title: "Currículo em HTML e CSS",
+    summary:
+      "Página de currículo feita do zero, com layout em duas colunas, barras de habilidade e seções de formação, experiência e projetos.",
+    tags: ["HTML", "CSS"],
+    context: "Página web",
     year: "2025",
-    tone: "slate",
+    links: { repo: "https://github.com/gabicpp/Trabalho-3" },
+    tone: "rose",
   },
   {
-    slug: "sistema-academico",
-    title: "Sistema acadêmico",
-    summary: "Projeto da graduação em Java com cadastro de alunos, disciplinas e notas.",
-    tags: ["Java"],
-    context: "Acadêmico",
+    slug: "strings-em-c",
+    title: "Strings em C",
+    summary:
+      "Onze exercícios de manipulação de strings: concatenação, maiúsculas e minúsculas, remoção de espaços, troca de caracteres e divisão em palavras.",
+    tags: ["C"],
+    context: "Algoritmos",
     year: "2024",
-    tone: "clay",
+    links: { repo: "https://github.com/gabicpp/strings" },
+    tone: "slate",
   },
 ];
 
-/** Cores das capas provisórias e da luz ambiente (todas dessaturadas). */
+/** Cores das capas provisórias e da luz ambiente (família do roxo, dessaturada). */
 export const toneColors: Record<ProjectTone, { base: string; glow: string; ink: string }> = {
-  olive: { base: "#2b3018", glow: "#8f9d58", ink: "#e7ecd2" },
-  sand: { base: "#352b1e", glow: "#c3a67a", ink: "#f1e6d4" },
-  slate: { base: "#1f262e", glow: "#7f8fa0", ink: "#dfe6ee" },
-  clay: { base: "#33221b", glow: "#b67f64", ink: "#f2dfd6" },
+  violet: { base: "#221a3d", glow: "#8b6cff", ink: "#ece7ff" },
+  indigo: { base: "#161b3a", glow: "#6a78ff", ink: "#e2e5ff" },
+  rose: { base: "#2f1829", glow: "#d07ab6", ink: "#f7e4f0" },
+  slate: { base: "#1b2129", glow: "#7d8ea2", ink: "#e0e6ee" },
 };

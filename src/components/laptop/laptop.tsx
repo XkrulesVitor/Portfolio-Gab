@@ -14,15 +14,13 @@ interface LaptopProps {
   lidTransform: MotionValue<string>;
   /** Conteúdo renderizado dentro da tela (DOM real, nítido e acessível). */
   screen: ReactNode;
-  /** Letra gravada na tampa traseira. */
-  monogram?: string;
 }
 
 /**
  * Notebook construído com DOM + CSS 3D. Componente puramente visual:
  * quem decide a pose é o `LaptopRig`, via MotionValues (sem re-render no scroll).
  */
-export function Laptop({ rigTransform, bodyTransform, lidTransform, screen, monogram = "G" }: LaptopProps) {
+export function Laptop({ rigTransform, bodyTransform, lidTransform, screen }: LaptopProps) {
   return (
     <motion.div className={styles.rig} style={{ transform: rigTransform }}>
       <motion.div className={styles.body} style={{ transform: bodyTransform }}>
@@ -34,9 +32,8 @@ export function Laptop({ rigTransform, bodyTransform, lidTransform, screen, mono
             </div>
             <div className={styles.chin} aria-hidden />
           </div>
-          <div className={styles.lidBack} aria-hidden>
-            <span className={styles.monogram}>{monogram}</span>
-          </div>
+          {/* Tampa traseira lisa, sem marca. */}
+          <div className={styles.lidBack} aria-hidden />
           <div className={`${styles.lidEdge} ${styles.lidEdgeTop}`} aria-hidden />
           <div className={`${styles.lidEdge} ${styles.lidEdgeLeft}`} aria-hidden />
           <div className={`${styles.lidEdge} ${styles.lidEdgeRight}`} aria-hidden />

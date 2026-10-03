@@ -13,26 +13,34 @@
   position: absolute;
   inset: 0;
   overflow: hidden;
-  color: #f2f0ea;
-  background: #0d0d0b;
+  color: #f3f1f8;
+  background: #0d0c12;
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   --menu-h: max(18px, 2.4cqw);
+  /* A tela é sempre "escura" (é luz emitida), então tem um acento próprio. */
+  --screen-accent: #b9a6ff;
 }
 
+/* Papel de parede roxo: íris no alto, índigo profundo embaixo, um toque de rosa. */
 .wallpaper {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(70% 60% at 84% 6%, rgb(198 174 130 / 0.3), transparent 62%),
-    radial-gradient(80% 75% at 6% 102%, rgb(124 140 70 / 0.42), transparent 64%),
-    radial-gradient(45% 45% at 52% 58%, rgb(255 255 255 / 0.035), transparent 70%),
-    linear-gradient(165deg, #1a1a14 0%, #0e0e0b 55%, #12130c 100%);
+    radial-gradient(70% 60% at 84% 4%, rgb(156 120 255 / 0.34), transparent 62%),
+    radial-gradient(80% 75% at 4% 104%, rgb(84 58 196 / 0.45), transparent 64%),
+    radial-gradient(45% 40% at 58% 64%, rgb(222 128 205 / 0.08), transparent 70%),
+    linear-gradient(165deg, #17131f 0%, #0d0c12 55%, #120f1b 100%);
 }
 
 .layer {
   position: absolute;
   inset: 0;
+}
+
+/* Camadas decorativas (visualizador de projetos): nunca capturam o mouse. */
+.passive {
+  pointer-events: none;
 }
 
 /* ------------------------------ Barra de menus ------------------------------ */
@@ -334,14 +342,14 @@
 }
 
 .milestone[data-current="true"] .milestoneNode {
-  background: #c4cf8a;
-  box-shadow: 0 0 0 max(3px, 0.4cqw) rgb(196 207 138 / 0.18);
+  background: var(--screen-accent);
+  box-shadow: 0 0 0 max(3px, 0.4cqw) color-mix(in oklab, var(--screen-accent) 24%, transparent);
 }
 
 .year {
   font-family: var(--font-mono);
   font-size: max(10px, 1.08cqw);
-  color: #c4cf8a;
+  color: var(--screen-accent);
   letter-spacing: 0.02em;
 }
 
@@ -395,7 +403,7 @@
   width: max(22px, 3.4cqw);
   height: max(22px, 3.4cqw);
   margin-bottom: max(10px, 2.4cqh);
-  color: #c4cf8a;
+  color: var(--screen-accent);
 }
 
 .years {
@@ -417,12 +425,12 @@
 }
 
 .yearCell[data-state="current"] {
-  border-top: 2px solid #c4cf8a;
+  border-top: 2px solid var(--screen-accent);
   padding-top: calc(max(8px, 1.2cqw) - 1px);
 }
 
 .yearCell[data-state="current"] .year {
-  color: #c4cf8a;
+  color: var(--screen-accent);
 }
 
 .yearCell .year {
@@ -445,22 +453,36 @@
 
 /* Stack */
 
+/* Cada grupo é uma linha: rótulo à esquerda, ferramentas à direita. */
 .groups {
   margin-top: max(16px, 5cqh);
+  display: flex;
+  flex-direction: column;
+  gap: max(8px, 1.9cqh);
+}
+
+.group {
   display: grid;
-  grid-template-columns: repeat(3, auto);
-  justify-content: start;
-  gap: 2cqh 4.5cqw;
+  grid-template-columns: 12cqw minmax(0, 1fr);
+  align-items: center;
+  column-gap: 2cqw;
 }
 
 .chips {
-  margin-top: max(6px, 1.1cqw);
   display: flex;
   flex-wrap: wrap;
   gap: max(5px, 0.7cqw);
 }
 
+/*
+ * Em repouso os logos são monocromáticos (respeitam a paleta da tela). No hover
+ * o chip cresce com uma mola leve e acende na cor da marca (--brand, definida
+ * por item; --brand-icon permite um logo bicolor, como o do Python).
+ */
 .chip {
+  --brand: var(--screen-accent);
+  --brand-icon: var(--brand);
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.55em;
@@ -472,6 +494,12 @@
   color: rgb(255 255 255 / 0.9);
   background: rgb(255 255 255 / 0.07);
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1);
+  cursor: default;
+  transition:
+    transform 420ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 260ms ease,
+    box-shadow 260ms ease,
+    color 260ms ease;
 }
 
 .chip svg {
@@ -479,21 +507,40 @@
   height: 1.05em;
   fill: currentColor;
   opacity: 0.85;
+  transition:
+    fill 260ms ease,
+    opacity 260ms ease;
+}
+
+@media (hover: hover) {
+  .chip:hover {
+    z-index: 1;
+    transform: translateY(-1px) scale(1.1);
+    color: #fff;
+    background: color-mix(in oklab, var(--brand) 20%, rgb(18 16 26 / 0.7));
+    box-shadow:
+      inset 0 0 0 1px color-mix(in oklab, var(--brand) 65%, transparent),
+      0 0.6cqw 2.2cqw -0.4cqw color-mix(in oklab, var(--brand) 60%, transparent);
+  }
+
+  .chip:hover svg {
+    fill: var(--brand-icon);
+    opacity: 1;
+  }
 }
 
 @container (max-width: 640px) {
   .groups {
-    grid-template-columns: minmax(0, 1fr);
     gap: max(6px, 1.6cqh);
     margin-top: max(10px, 3cqh);
   }
 
-  .groupLabel {
-    display: none;
+  .group {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .chips {
-    margin-top: 0;
+  .groupLabel {
+    display: none;
   }
 }
 

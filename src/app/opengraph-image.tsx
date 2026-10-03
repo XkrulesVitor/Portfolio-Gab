@@ -23,8 +23,8 @@ export default async function OpengraphImage() {
           gap: 64,
           padding: "0 88px",
           background:
-            "radial-gradient(60% 80% at 20% 100%, rgba(124,140,70,0.45), transparent 70%), radial-gradient(50% 60% at 90% 0%, rgba(198,174,130,0.25), transparent 70%), #0b0b0a",
-          color: "#f1f0ec",
+            "radial-gradient(60% 80% at 20% 100%, rgba(110,80,230,0.42), transparent 70%), radial-gradient(50% 60% at 92% 0%, rgba(185,150,255,0.28), transparent 70%), #0b0a0f",
+          color: "#f2f0f7",
         }}
       >
         {/* ImageResponse (Satori) só entende <img>, não o componente next/image. */}
@@ -38,7 +38,7 @@ export default async function OpengraphImage() {
         />
         <div style={{ display: "flex", flexDirection: "column", maxWidth: 620 }}>
           <div style={{ fontSize: 76, fontWeight: 700, letterSpacing: -3, lineHeight: 1 }}>{profile.name}</div>
-          <div style={{ marginTop: 28, fontSize: 30, lineHeight: 1.4, color: "#a09e97" }}>{profile.hero.lead}</div>
+          <div style={{ marginTop: 28, fontSize: 30, lineHeight: 1.4, color: "#a29eac" }}>{profile.hero.lead}</div>
         </div>
       </div>
     ),

@@ -73,7 +73,7 @@ export function LockScreen({ name, portrait, active }: LockScreenProps) {
             <LockSimple weight="bold" style={{ opacity: unlocked ? 0 : 0.8, transition: "opacity 300ms" }} />
             <LockSimpleOpen
               weight="bold"
-              style={{ opacity: unlocked ? 1 : 0, color: "#c4cf8a", transition: "opacity 300ms" }}
+              style={{ opacity: unlocked ? 1 : 0, color: "var(--screen-accent)", transition: "opacity 300ms" }}
             />
           </span>
         </div>

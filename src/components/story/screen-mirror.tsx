@@ -20,7 +20,6 @@ const mirrorBox: CSSProperties = {
   height: "var(--lid-h)",
   marginLeft: "calc(var(--lid-w) / -2)",
   marginTop: "calc(var(--lid-h) / -2)",
-  pointerEvents: "none",
   ["--u" as string]: "var(--lid-u)",
 };
 
@@ -37,6 +36,8 @@ const mirrorBox: CSSProperties = {
  * mesma tela, só que composta em 2D, com texto pixel-perfeito.
  *
  * A cópia é decorativa (aria-hidden): o conteúdo acessível continua na tela 3D.
+ * Enquanto está visível ela recebe o mouse (é ela que o usuário vê), então o
+ * hover dos chips da stack acontece aqui.
  */
 export function ScreenMirror({ profile, projects }: { profile: Profile; projects: Project[] }) {
   const { t, pose } = useStory();
@@ -46,8 +47,12 @@ export function ScreenMirror({ profile, projects }: { profile: Profile; projects
   return (
     <motion.div
       aria-hidden
-      inert
-      style={{ ...mirrorBox, transform, visibility: visible ? "visible" : "hidden" }}
+      style={{
+        ...mirrorBox,
+        transform,
+        visibility: visible ? "visible" : "hidden",
+        pointerEvents: visible ? "auto" : "none",
+      }}
     >
       <div className={laptopStyles.screen}>
         <ScreenUI profile={profile} projects={projects} />

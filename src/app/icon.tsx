@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
-/** Favicon gerado no build: o mesmo monograma gravado na tampa do notebook. */
+/** Favicon gerado no build: monograma "G" nas cores da marca (o mesmo da barra de menus da tela). */
 export default function Icon() {
   return new ImageResponse(
     (
@@ -15,8 +15,8 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           borderRadius: 16,
-          background: "#12140b",
-          color: "#b9c47f",
+          background: "#150e2c",
+          color: "#b9a6ff",
           fontSize: 44,
           fontWeight: 700,
           letterSpacing: -2,

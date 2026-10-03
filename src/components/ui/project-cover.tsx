@@ -7,20 +7,15 @@ interface ProjectCoverProps {
   sizes: string;
   /**
    * "screen": capa provisória com o título (a tela do notebook não tem outro texto).
-   * "card": só as iniciais, porque o título já aparece logo abaixo no card.
+   * "card": só a inicial, porque o título já aparece logo abaixo no card.
    */
   variant?: "screen" | "card";
   className?: string;
   priority?: boolean;
 }
 
-const initialsOf = (title: string) =>
-  title
-    .split(/\s+/)
-    .filter((word) => word.length > 2)
-    .slice(0, 2)
-    .map((word) => word[0]?.toUpperCase())
-    .join("");
+/** Inicial do título, usada como monograma da capa provisória. */
+const initialOf = (title: string) => title.trim().charAt(0).toUpperCase();
 
 /**
  * Capa do projeto: o print real quando existir; senão, uma capa tipográfica
@@ -67,7 +62,7 @@ export function ProjectCover({ project, sizes, variant = "screen", className = "
             aria-hidden
             className="absolute right-[6cqi] top-[2cqi] text-[34cqi] font-semibold leading-none tracking-[-0.08em] opacity-[0.14]"
           >
-            {initialsOf(project.title)}
+            {initialOf(project.title)}
           </span>
         ) : null}
         <span className="font-mono text-[max(9px,2.6cqi)] uppercase tracking-[0.14em] opacity-70">

@@ -37,7 +37,8 @@ export function ScreenUI({ profile, projects }: ScreenUIProps) {
         <StoryColumn profile={profile} />
       </motion.div>
 
-      <motion.div className={styles.layer} style={{ opacity: projectsOpacity }}>
+      {/* Fica por cima da história mesmo invisível: sem eventos, para o hover dos chips funcionar. */}
+      <motion.div className={`${styles.layer} ${styles.passive}`} style={{ opacity: projectsOpacity }}>
         <ProjectViewer projects={projects} />
       </motion.div>
 

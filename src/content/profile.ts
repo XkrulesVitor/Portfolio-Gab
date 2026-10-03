@@ -21,7 +21,17 @@ export interface Milestone {
   detail: string;
 }
 
-export type StackIcon = "totvs" | "dbeaver" | "openjdk" | "cplusplus" | "python" | "react" | "vite";
+export type StackIcon =
+  | "react"
+  | "vite"
+  | "javascript"
+  | "html5"
+  | "c"
+  | "cplusplus"
+  | "openjdk"
+  | "python"
+  | "dbeaver"
+  | "totvs";
 
 export interface StackItem {
   name: string;
@@ -66,7 +76,7 @@ export const profile: Profile = {
 
   hero: {
     // Máximo de ~20 palavras: o hero precisa caber inteiro na primeira dobra.
-    lead: "Analista de serviços na TOTVS e estudante de Sistemas de Informação na UNIVÁS. ERP Protheus, Java, Python e React.",
+    lead: "Estudante de Sistemas de Informação e analista de serviços na TOTVS, com foco em desenvolvimento e UI/UX.",
   },
 
   portrait: {
@@ -84,12 +94,12 @@ export const profile: Profile = {
 
   about: {
     title: "Olá, eu sou a Gabriela.",
-    body: "Sou analista de serviços na TOTVS Sudeste Meridional e curso Sistemas de Informação na UNIVÁS. Meu dia a dia passa pelo ERP Protheus, por bancos de dados e por código.",
+    body: "Estudo Sistemas de Informação na UNIVÁS e sou analista de serviços na TOTVS. Gosto de criar interfaces claras e fáceis de usar, com foco em desenvolvimento e UI/UX.",
     location: "Pouso Alegre, MG",
   },
 
   journey: {
-    title: "Da universidade ao ERP.",
+    title: "Minha trajetória até aqui.",
     milestones: [
       { year: "2023", title: "Auxiliar administrativo", detail: "UNIVÁS, de abr. 2023 a jan. 2025" },
       { year: "2024", title: "Sistemas de Informação", detail: "Início da graduação na UNIVÁS" },
@@ -109,27 +119,36 @@ export const profile: Profile = {
     title: "Com o que eu trabalho.",
     groups: [
       {
-        label: "ERP e dados",
+        label: "Front-end",
         items: [
-          { name: "ERP Protheus", icon: "totvs" },
-          { name: "DBeaver", icon: "dbeaver" },
+          { name: "React", icon: "react" },
+          { name: "Vite", icon: "vite" },
+          { name: "JavaScript", icon: "javascript" },
+          { name: "HTML e CSS", icon: "html5" },
         ],
       },
       {
         label: "Linguagens",
         items: [
-          { name: "Java", icon: "openjdk" },
+          { name: "C", icon: "c" },
           { name: "C++", icon: "cplusplus" },
+          { name: "Java", icon: "openjdk" },
           { name: "Python", icon: "python" },
         ],
       },
-      { label: "Front-end", items: [{ name: "React", icon: "react" }, { name: "Vite", icon: "vite" }] },
+      {
+        label: "Ferramentas",
+        items: [
+          { name: "DBeaver", icon: "dbeaver" },
+          { name: "ERP Protheus", icon: "totvs" },
+        ],
+      },
     ],
   },
 
   projectsIntro: {
     title: "Projetos",
-    body: "Uma seleção do que venho construindo entre a faculdade e o trabalho.",
+    body: "Alguns projetos que construí estudando desenvolvimento, do C ao React.",
   },
 
   contact: {

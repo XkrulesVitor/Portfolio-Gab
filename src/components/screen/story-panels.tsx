@@ -6,7 +6,7 @@ import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import type { Profile } from "@/content/profile";
 import { useNow } from "@/hooks/use-now";
-import { StackLogo } from "@/components/ui/stack-logo";
+import { brandStyle, StackLogo } from "@/components/ui/stack-logo";
 import styles from "./screen.module.css";
 
 /** Ordem de entrada (stagger) de cada elemento quando o capítulo assenta. */
@@ -146,11 +146,15 @@ export function StackPanel({ profile, active }: { profile: Profile; active: bool
       </h2>
       <div className={styles.groups}>
         {stack.groups.map((group, g) => (
-          <div key={group.label} className={styles.reveal} style={order(g + 1)}>
+          <div key={group.label} className={`${styles.group} ${styles.reveal}`} style={order(g + 1)}>
             <p className={`${styles.meta} ${styles.groupLabel}`}>{group.label}</p>
             <ul className={styles.chips}>
               {group.items.map((item) => (
-                <li key={item.name} className={styles.chip}>
+                <li
+                  key={item.name}
+                  className={styles.chip}
+                  style={item.icon ? brandStyle(item.icon) : undefined}
+                >
                   {item.icon ? <StackLogo icon={item.icon} /> : null}
                   {item.name}
                 </li>

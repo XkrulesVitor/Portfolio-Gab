@@ -17,8 +17,11 @@ import { StoryContext, type StoryContextValue } from "./story-context";
 import { useLayoutMode } from "./use-layout-mode";
 import { useStoryTimeline } from "./use-story-timeline";
 
-/** Altura do espaçador da história, em svh. Controla o "tempo" de leitura de cada capítulo. */
-const STORY_SVH = 380;
+/**
+ * Altura do espaçador da história, em svh. Controla o "tempo" de leitura de
+ * cada capítulo: ~70svh por trecho (4 transições + 1 pausa final).
+ */
+const STORY_SVH = 450;
 /** Fração de cada transição em que a tela fica parada num capítulo. */
 const CHAPTER_DWELL = 0.42;
 
@@ -65,8 +68,14 @@ export function ScrollStory({ profile, projects }: ScrollStoryProps) {
   );
 
   // Capítulo da tela: 0 = bloqueio, 1..N = capítulos, com platôs de leitura.
+  // A última parada se repete: o último capítulo (Stack) ganha uma pausa inteira
+  // antes do notebook deslizar, tempo para ler e passar o mouse nas ferramentas.
   const chapterCount = profile.chapters.length;
-  const stops = useMemo(() => Array.from({ length: chapterCount + 1 }, (_, i) => i), [chapterCount]);
+  const stops = useMemo(
+    () => [...Array.from({ length: chapterCount + 1 }, (_, i) => i), chapterCount],
+    [chapterCount],
+  );
+  const segments = stops.length - 1;
   const chapter = useTransform(storyProgress, (p) => dwellMap(p, stops, CHAPTER_DWELL));
 
   // Fase 3: card par (esquerda) → notebook à direita (+1); card ímpar → esquerda (-1).
@@ -85,11 +94,11 @@ export function ScrollStory({ profile, projects }: ScrollStoryProps) {
       if (!spacer) return;
       const top = spacer.getBoundingClientRect().top + window.scrollY;
       const distance = spacer.offsetHeight - window.innerHeight;
-      const target = top + (index / chapterCount) * distance;
+      const target = top + (index / segments) * distance;
       if (lenis) lenis.scrollTo(target, { duration: 1.6 });
       else window.scrollTo({ top: target, behavior: reducedMotion ? "auto" : "smooth" });
     },
-    [lenis, chapterCount, reducedMotion],
+    [lenis, segments, reducedMotion],
   );
 
   const value = useMemo<StoryContextValue>(
@@ -112,7 +121,7 @@ export function ScrollStory({ profile, projects }: ScrollStoryProps) {
                 key={item.id}
                 id={item.id}
                 className="absolute left-0 h-px w-px"
-                style={{ top: `${((i + 1) / chapterCount) * (STORY_SVH - 100)}svh` }}
+                style={{ top: `${((i + 1) / segments) * (STORY_SVH - 100)}svh` }}
               />
             ))}
           </div>

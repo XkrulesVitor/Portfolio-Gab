@@ -45,7 +45,7 @@ export function ChapterIndex({ chapters }: { chapters: StoryChapter[] }) {
                 <span
                   aria-hidden
                   className={`h-px transition-all duration-500 ease-[var(--ease-out-expo)] ${
-                    isActive ? "w-8 bg-fg" : "w-4 bg-fg-faint group-hover:w-6 group-hover:bg-fg-muted"
+                    isActive ? "w-8 bg-accent" : "w-4 bg-fg-faint group-hover:w-6 group-hover:bg-fg-muted"
                   }`}
                 />
                 <span

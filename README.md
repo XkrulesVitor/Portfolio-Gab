@@ -26,10 +26,15 @@ para a imagem de compartilhamento do LinkedIn usar o domínio certo. Na Vercel i
 | Projetos (título, descrição, tags, links, imagem) | `src/content/projects.ts` |
 | Foto de perfil | `src/assets/images/gabriela.jpg` |
 
-**Projetos:** os quatro itens atuais são **exemplos**. Para usar prints reais, salve as
-imagens em `src/assets/projects/` (proporção 16:10, ex.: 1600 × 1000), importe no
-`projects.ts` e preencha `image`. Sem imagem, o card e a tela do notebook usam uma capa
-tipográfica provisória na cor do campo `tone`.
+**Projetos:** os quatro itens vêm do GitHub da Gabriela (`github.com/gabicpp`). Para
+adicionar os prints, salve as imagens em `src/assets/projects/` (proporção 16:10, ex.:
+1600 × 1000), importe no `projects.ts` e preencha `image`. Sem imagem, o card e a tela
+do notebook usam uma capa provisória com a inicial do projeto, na cor do campo `tone`.
+
+**Paleta:** os tokens ficam no topo de `src/app/globals.css` (acento roxo `--accent`,
+luz ambiente `--glow-base`). Dentro da tela do notebook o acento é `--screen-accent`
+(`screen.module.css`), e as cores do hover de cada ferramenta estão em
+`src/components/ui/stack-logo.tsx`.
 
 ---
 
@@ -42,7 +47,7 @@ tipográfica provisória na cor do campo `tone`.
   <Stage>           sticky, top 0, altura 100svh: notebook, luz, índice de capítulos
   <div -mt-100svh>  primeiro plano, rola por cima do palco
     Hero                    100svh
-    Espaçador da história   380svh  (âncoras #sobre, #trajetoria, #formacao, #stack)
+    Espaçador da história   450svh  (âncoras #sobre, #trajetoria, #formacao, #stack)
     Intro "Projetos"        100svh  (#projetos)
     Lista de projetos       ~88svh por projeto
     Contato                 100svh  (#contato)
